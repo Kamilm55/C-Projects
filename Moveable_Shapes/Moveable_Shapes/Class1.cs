@@ -44,7 +44,7 @@ namespace Moveable_Shapes
         }
 
          // Delete
-        public void DeleteShape ( Graphics area, Pen p)
+        public void DeleteShape (Brush customBrush, Graphics area, Pen p)
         {
             area.DrawEllipse(p, -1,-1,0,0);
         }

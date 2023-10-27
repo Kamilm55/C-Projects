@@ -275,8 +275,8 @@ namespace Moveable_Shapes
                     mouseX <= circle.XLocation + circle.Radius &&
                     mouseY >= circle.YLocation &&
                     mouseY <= circle.YLocation + circle.Radius)
-                    { 
-                    selectedShape = circle;
+                    {
+                        selectedShape = circle;
                     }
                 }
                 else if (shape is Rectangle)
@@ -292,11 +292,11 @@ namespace Moveable_Shapes
                 }
                else  if (shape is Square)
                 {
-                    Rectangle square = (Rectangle)shape;
+                    Square square = (Square)shape;
                     if (mouseX >= square.XLocation &&
                     mouseX <= square.XLocation + square.Width &&
                     mouseY >= square.YLocation &&
-                    ngth)
+                    mouseY <= square.YLocation + square.Length)
                     {
                         selectedShape = square;
                     }
@@ -310,27 +310,28 @@ namespace Moveable_Shapes
 
          protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
             if (keyData == Keys.Up) {
-                Debug.WriteLine("Worksss");
-
-                Pen customPen = new Pen(Color.FromName(currentShape.Color));
+                           
                  using (Graphics g = panel1.CreateGraphics())
                 {
                     // Draw the circle on top of the panel
-                    currentShape.DeleteShape(customBrush,customPen , g);
+                    //for clearing i use background color 
+                    Pen customPen = new Pen(Color.FromName("White"));
+                    Brush customBrush = new SolidBrush(Color.FromName("White"));
 
+
+                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
+                    shapes.Remove(selectedShape);
+
+                    selectedShape.YLocation -= 10;
+
+
+                    customPen.Color = Color.FromName(selectedShape.Color);
+                    Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
+                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
+                    shapes.Add(selectedShape);
                 }
 
-                currentShape.YLocation -=10;
-
-                shapes.Remove(currentShape);
-
-            using (Graphics g = panel1.CreateGraphics())
-                {
-                    // Draw the circle on top of the panel
-                    currentRectangle.DrawOrFillShape(customBrush, customPen, g);
-
-                }
-
+             
 
                 return true;
             }
