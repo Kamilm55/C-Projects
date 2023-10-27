@@ -43,5 +43,11 @@ namespace Moveable_Shapes
             return "\nX: "+ xLocation + "\nY: " + yLocation + "\nColor: " + color + "\n" + "IsFilled: " + filled;
         }
 
+         // Delete
+        public void DeleteShape ( Graphics area, Pen p)
+        {
+            area.DrawEllipse(p, -1,-1,0,0);
+        }
+
     }
 }

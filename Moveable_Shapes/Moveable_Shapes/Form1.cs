@@ -296,7 +296,7 @@ namespace Moveable_Shapes
                     if (mouseX >= square.XLocation &&
                     mouseX <= square.XLocation + square.Width &&
                     mouseY >= square.YLocation &&
-                    mouseY <= square.YLocation + square.Length)
+                    ngth)
                     {
                         selectedShape = square;
                     }
@@ -307,6 +307,35 @@ namespace Moveable_Shapes
             Debug.WriteLine(selectedShape);
             label1.Text = "Shape Information: \n" + selectedShape;
         }
+
+         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
+            if (keyData == Keys.Up) {
+                Debug.WriteLine("Worksss");
+
+                Pen customPen = new Pen(Color.FromName(currentShape.Color));
+                 using (Graphics g = panel1.CreateGraphics())
+                {
+                    // Draw the circle on top of the panel
+                    currentShape.DeleteShape(customBrush,customPen , g);
+
+                }
+
+                currentShape.YLocation -=10;
+
+                shapes.Remove(currentShape);
+
+            using (Graphics g = panel1.CreateGraphics())
+                {
+                    // Draw the circle on top of the panel
+                    currentRectangle.DrawOrFillShape(customBrush, customPen, g);
+
+                }
+
+
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+         }
         ///////
       /*  private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
