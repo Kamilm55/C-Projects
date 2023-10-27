@@ -1,6 +1,9 @@
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq.Expressions;
+using System.Reflection;
+using System.Security.Policy;
 using System.Windows.Forms;
 
 namespace Moveable_Shapes
@@ -9,6 +12,13 @@ namespace Moveable_Shapes
     {
         private Panel inputPanel; // Declare the Panel control
         private string whichShape;
+        private static Shape currentShape;
+        private static Circle currentCircle;
+        private static Rectangle currentRectangle;
+        private static Square currentSquare;
+
+        private List<Shape> shapes;
+        private static Shape selectedShape;
 
         public Form1()
         {
@@ -17,6 +27,8 @@ namespace Moveable_Shapes
             inputPanel.Location = new Point(10, 50); // Adjust the location as needed
             inputPanel.Size = new Size(400, 800); // Adjust the size as needed
             this.Controls.Add(inputPanel); // Add the Panel to the form
+
+            shapes = new List<Shape>();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -25,11 +37,31 @@ namespace Moveable_Shapes
         //Circle button
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] labels = { "x_Location", "y_Location", "Radius", "Color", "Filled" };
+            string[] labels = { "x_Location", "y_Location", "Color", "Filled", "Radius" };
             whichShape = "Circle";
             ShowPopupWithInputFields(labels);
 
-            Debug.WriteLine("Submitted inputs:");
+
+            if (currentShape != null && currentShape is Circle currentCircle)
+            {
+                // Set up the Pen and Brush for drawing the circle
+                Pen customPen = new Pen(Color.FromName(currentShape.Color));
+                Brush customBrush = new SolidBrush(Color.FromName(currentShape.Color));
+
+                // Draw the panel
+                using (Graphics g = panel1.CreateGraphics())
+                {
+                    // Draw the circle on top of the panel
+                    currentCircle.DrawOrFillShape(customBrush,customPen , g);
+
+                }
+
+                // Dispose of the Pen and Brush to release resources
+                customPen.Dispose();
+                customBrush.Dispose();
+
+                shapes.Add(currentCircle);
+            }
 
         }
 
@@ -39,6 +71,26 @@ namespace Moveable_Shapes
             string[] labels = { "x_Location", "y_Location", "Color", "Filled", "Width", "Height" };
             whichShape = "Rectangle";
             ShowPopupWithInputFields(labels);
+            if (currentShape != null && currentShape is Rectangle currentRectangle)
+            {
+                // Set up the Pen and Brush for drawing the circle
+                Pen customPen = new Pen(Color.FromName(currentShape.Color));
+                Brush customBrush = new SolidBrush(Color.FromName(currentShape.Color));
+
+                // Draw the panel
+                using (Graphics g = panel1.CreateGraphics())
+                {
+                    // Draw the circle on top of the panel
+                    currentRectangle.DrawOrFillShape(customBrush, customPen, g);
+
+                }
+
+                // Dispose of the Pen and Brush to release resources
+                customPen.Dispose();
+                customBrush.Dispose();
+
+                shapes.Add(currentRectangle);
+            }
         }
         //Square button
         private void button2_Click(object sender, EventArgs e)
@@ -46,6 +98,26 @@ namespace Moveable_Shapes
             string[] labels = { "x_Location", "y_Location", "Color", "Filled", "Side" };
             whichShape = "Square";
             ShowPopupWithInputFields(labels);
+
+            if (currentShape != null && currentShape is Square currentSquare)
+            {
+                // Set up the Pen and Brush for drawing the circle
+                Pen customPen = new Pen(Color.FromName(currentShape.Color));
+                Brush customBrush = new SolidBrush(Color.FromName(currentShape.Color));
+
+                // Draw the panel
+                using (Graphics g = panel1.CreateGraphics())
+                {
+                    // Draw the circle on top of the panel
+                    currentSquare.DrawOrFillShape(customBrush, customPen, g);
+                }
+
+                // Dispose of the Pen and Brush to release resources
+                customPen.Dispose();
+                customBrush.Dispose();
+
+                shapes.Add(currentSquare);
+            }
         }
         /////////////////
         /// Create input fields for shapes
@@ -105,16 +177,12 @@ namespace Moveable_Shapes
                     TextBox textBox = (TextBox)popupForm.Controls["textBox" + i];
 
                     // create shape
-                    if (textBox.Text.Equals(""))
-                        inputValues[i] = "empty";
-                    else
+                    if (!textBox.Text.Equals(""))
                         inputValues[i] = textBox.Text;
                 }
-                // Process the input values as needed
 
+                CreateShape(whichShape, inputValues);
 
-               // Shape createdShape = CreateShape(whichShape, inputValues);
-              //  Debug.WriteLine(createdShape);
 
                 popupForm.Close(); // Close the pop-up form when submission is complete
             };
@@ -124,41 +192,145 @@ namespace Moveable_Shapes
             popupForm.ShowDialog();
         }
 
-    /*    private Shape CreateShape(string whichShape, string[] inputValues)
+        private static void CreateShape(string whichShape, string[] inputValues)
         {
             foreach (string inputValue in inputValues)
             {
                 Debug.WriteLine(inputValue);
             }
 
+
             switch (whichShape)
             {
                 case "Circle":
-                    Circle circle = new Circle();
-                    //setIfNotEmpty
-                    circle.XLocation = int.Parse(inputValues[0]);
+                    CreateCircle(inputValues);
 
-                    return circle;
                     break;
                 case "Rectangle":
-                    // Code to execute if expression matches value2
+                    CreateRectangle(inputValues);
                     break;
                 case "Square":
-                    // Code to execute if expression matches value2
+                    CreateSquare(inputValues);
                     break;
 
                 default:
                     Debug.WriteLine("Shape was not selected");
-                    // return null;
                     break;
             }
 
 
         }
 
-        private void setIfNotEmpty(string field , Shape shape) {
+        private static void CreateSquare(string[] inputValues)
+        {
+            Square square = new Square(int.Parse(inputValues[4]), inputValues[2], bool.Parse(inputValues[3]));
+            square.XLocation = int.Parse(inputValues[0]);
+            square.YLocation = int.Parse(inputValues[1]);
+
+
+            currentShape = square;
+            currentSquare = square;
+        }
+
+        private static void CreateRectangle(string[] inputValues)
+        {
+            Rectangle rectangle = new Rectangle();
+            rectangle.XLocation = int.Parse(inputValues[0]);
+            rectangle.YLocation = int.Parse(inputValues[1]);
+            rectangle.Color = inputValues[2];
+            rectangle.IsFilled = bool.Parse(inputValues[3]);
+            rectangle.Width = int.Parse(inputValues[4]);
+            rectangle.Length = int.Parse(inputValues[5]);
+
+            currentShape = rectangle;
+            currentRectangle = rectangle;
+        }
+
+        private static void CreateCircle(string[] inputValues)
+        {
+            Circle circle = new Circle();
+            circle.XLocation = int.Parse(inputValues[0]);
+            circle.YLocation = int.Parse(inputValues[1]);
+            circle.Color = inputValues[2];
+            circle.IsFilled = bool.Parse(inputValues[3]);
+            circle.Radius = int.Parse(inputValues[4]);
+
+            currentShape = circle;
+            currentCircle = circle;
+
+        }
+      ////////
+
+        private void panel1_MouseClick(object sender, MouseEventArgs e)
+        {
+            int mouseX = e.X; 
+            int mouseY = e.Y;          
+
+            foreach (Shape shape in shapes)
+            {
+                if (shape is Circle) 
+                {
+                        Circle circle = (Circle)shape;
+                    if (mouseX >= circle.XLocation &&
+                    mouseX <= circle.XLocation + circle.Radius &&
+                    mouseY >= circle.YLocation &&
+                    mouseY <= circle.YLocation + circle.Radius)
+                    { 
+                    selectedShape = circle;
+                    }
+                }
+                else if (shape is Rectangle)
+                {
+                    Rectangle rectangle = (Rectangle)shape;
+                    if (mouseX >= rectangle.XLocation &&
+                    mouseX <= rectangle.XLocation + rectangle.Width &&
+                    mouseY >= rectangle.YLocation &&
+                    mouseY <= rectangle.YLocation + rectangle.Length)
+                    {
+                        selectedShape = rectangle;
+                    }
+                }
+               else  if (shape is Square)
+                {
+                    Rectangle square = (Rectangle)shape;
+                    if (mouseX >= square.XLocation &&
+                    mouseX <= square.XLocation + square.Width &&
+                    mouseY >= square.YLocation &&
+                    mouseY <= square.YLocation + square.Length)
+                    {
+                        selectedShape = square;
+                    }
+                }
+            }
+
             
-        }*/
-        //
+            Debug.WriteLine(selectedShape);
+            label1.Text = "Shape Information: \n" + selectedShape;
+        }
+        ///////
+      /*  private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (exists)
+            {
+                g.FillRectangle(eb, x, y, size, size);
+                switch (e.KeyCode)
+                {
+                    case Keys.Left:
+                        x -= 5;
+                        break;
+                    case Keys.Right:
+                        x += 5; ;
+                        break;
+                    case Keys.Up:
+                        y -= 5; ;
+                        break;
+                    case Keys.Down:
+                        y += 5;
+                        break;
+                }
+                g.FillRectangle(sb, x, y, size, size);
+            }
+        }
+*/
     }
 }

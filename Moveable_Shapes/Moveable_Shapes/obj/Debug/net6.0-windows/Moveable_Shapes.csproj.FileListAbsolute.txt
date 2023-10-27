@@ -14,3 +14,4 @@ C:\Users\User\cs\tasks\Moveable_Shapes\Moveable_Shapes\obj\Debug\net6.0-windows\
 C:\Users\User\cs\tasks\Moveable_Shapes\Moveable_Shapes\obj\Debug\net6.0-windows\Moveable_Shapes.pdb
 C:\Users\User\cs\tasks\Moveable_Shapes\Moveable_Shapes\obj\Debug\net6.0-windows\Moveable_Shapes.genruntimeconfig.cache
 C:\Users\User\cs\tasks\Moveable_Shapes\Moveable_Shapes\obj\Debug\net6.0-windows\ref\Moveable_Shapes.dll
+C:\Users\User\cs\tasks\Moveable_Shapes\Moveable_Shapes\obj\Debug\net6.0-windows\Moveable_Shapes.Properties.Resources.resources

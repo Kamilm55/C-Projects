@@ -9,7 +9,11 @@ namespace Moveable_Shapes
     internal class Square : Rectangle
     {
         public Square() { }
-        public Square(double side) { this.Width = side; this.Length = side; }
+        public Square(double side)
+        {
+            this.Width = side;
+            this.Length = side;
+        }
         public Square(double side, string color, bool filled)
         {
             this.Width = side;
@@ -18,16 +22,13 @@ namespace Moveable_Shapes
             this.IsFilled = filled;
         }
 
-        public double Side {  get; set; }
-        //   override property
-        // setWidth(side)
-        public override double Width { set { this.Width = value; this.Length = value; } }
-        // setLength(side)
-        public override double Length { set { this.Width = value; this.Length = value; } }
-
         public override string ToString()
         {
-            return base.ToString();
+            string baseString = base.ToString();
+           /* string additionalInfo = $"Side: {Width}";
+            string areaAndPerimeter = $"Area: {getArea()}, Perimeter: {getPerimeter()}";*/
+
+            return $"{baseString}";
         }
     }
 }

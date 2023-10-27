@@ -25,10 +25,19 @@ namespace Moveable_Shapes
         }
         public virtual double Width { get { return width; } set { this.width = value; } } 
         public virtual double Length { get { return length; } set { this.length = value; } }
-        public override string ToString()
+        
+            public override string ToString()
         {
-            return base.ToString() +"Width: " + width + "\n" + "Length: " + length + "\n"  + "Area: " + getArea() + "\n" +"Perimeter: " + getPerimeter();
+            string baseString = base.ToString(); // Call the base class's ToString method if 
+            string additionalInfo = $"Width: {width}, Length: {Length}";
+            string areaAndPerimeter = $"Area: {getArea()}, Perimeter: {getPerimeter()}";
+
+
+
+            return $"{baseString}\n{additionalInfo}\n{areaAndPerimeter}";
         }
+
+       
 
         // Methods : area and perimeter
         public double getArea()
@@ -38,6 +47,23 @@ namespace Moveable_Shapes
         public double getPerimeter()
         {
             return 2 * (width + length) ;
+        }
+        //Draw
+        public void DrawMe(int x, int y, int width , int length, Graphics area, Pen p)
+        {
+            area.DrawRectangle(p, x, y, width, length);
+        }
+
+        internal void DrawOrFillShape(Brush customBrush, Pen customPen, Graphics g)
+        {
+            if (this.IsFilled)
+            {
+                g.FillRectangle(customBrush, XLocation, YLocation, (int)Width, (int)Length);
+            }
+            else
+            {
+                this.DrawMe(XLocation, YLocation, (int)Width , (int)Length, g, customPen);
+            }
         }
     }
 }

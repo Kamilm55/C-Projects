@@ -40,7 +40,8 @@ namespace Moveable_Shapes
 
         public override string ToString()
         {
-            return "Color: " + color + "\n" + "IsFilled: " + filled;
+            return "\nX: "+ xLocation + "\nY: " + yLocation + "\nColor: " + color + "\n" + "IsFilled: " + filled;
         }
+
     }
 }

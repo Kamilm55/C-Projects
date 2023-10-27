@@ -25,7 +25,11 @@ namespace Moveable_Shapes
 
         public override string ToString()
         {
-            return base.ToString() + "Area: " + getArea() + "Perimeter: " + getPerimeter();
+            string baseString = base.ToString(); // Call the base class's ToString method if needed
+            string circleInfo = $"Radius: {Radius}";
+            string areaAndPerimeter = $"Area: {getArea()}, Perimeter: {getPerimeter()}";
+
+            return $"{baseString}\n{circleInfo}\n{areaAndPerimeter}";
         }
 
         // Methods : area and perimeter
@@ -36,6 +40,25 @@ namespace Moveable_Shapes
         public double getPerimeter()
         {
             return 3.14  * 2 * radius;
+        }
+
+        // Draw
+        public void DrawMe(int x, int y, int rd, Graphics area, Pen p)
+        {
+
+            area.DrawEllipse(p, x, y, rd, rd);
+        }
+
+        internal void DrawOrFillShape(Brush customBrush, Pen customPen, Graphics g)
+        {
+            if (this.IsFilled)
+            {
+                g.FillEllipse(customBrush, XLocation, YLocation, (int)Radius, (int)Radius);
+            }
+            else
+            {
+                this.DrawMe(XLocation, YLocation, (int)Radius, g, customPen);
+            }
         }
     }
 }
