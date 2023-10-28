@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moveable_Shapes
 {
-    internal class Square : Rectangle
+    internal class Square : Rectangle,IMoveable
     {
         public Square() { }
         public Square(double side)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moveable_Shapes
 {
-    internal class Circle:Shape
+    internal class Circle:Shape,IMoveable
     {
         private double radius = 1.0;
 
@@ -59,6 +59,88 @@ namespace Moveable_Shapes
             {
                 this.DrawMe(XLocation, YLocation, (int)Radius, g, customPen);
             }
+        }
+
+        // Move
+        public override void MoveUp(Circle currentCircle,Shape selectedShape)
+        {
+                using (Graphics g = panel1.CreateGraphics())
+                {
+                    Pen customPen = new Pen(Color.FromName("White"));
+                    Brush customBrush = new SolidBrush(Color.FromName("White"));
+
+
+                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
+                    shapes.Remove(selectedShape);
+
+                    selectedShape.YLocation -= 10;
+
+
+                    customPen.Color = Color.FromName(selectedShape.Color);
+                    Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
+                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
+                    shapes.Add(selectedShape);
+                }
+        }
+        public override void MoveDown()
+        {
+                using (Graphics g = panel1.CreateGraphics())
+                {
+                    Pen customPen = new Pen(Color.FromName("White"));
+                    Brush customBrush = new SolidBrush(Color.FromName("White"));
+
+
+                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
+                    shapes.Remove(selectedShape);
+
+                    selectedShape.YLocation += 10;
+
+
+                    customPen.Color = Color.FromName(selectedShape.Color);
+                    Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
+                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
+                    shapes.Add(selectedShape);
+                }
+        }
+        public override void MoveRight()
+        {
+                using (Graphics g = panel1.CreateGraphics())
+                {
+                    Pen customPen = new Pen(Color.FromName("White"));
+                    Brush customBrush = new SolidBrush(Color.FromName("White"));
+
+
+                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
+                    shapes.Remove(selectedShape);
+
+                    selectedShape.YLocation += 10;
+
+
+                    customPen.Color = Color.FromName(selectedShape.Color);
+                    Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
+                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
+                    shapes.Add(selectedShape);
+                }
+        }
+        public override void MoveLeft()
+        {
+                using (Graphics g = panel1.CreateGraphics())
+                {
+                    Pen customPen = new Pen(Color.FromName("White"));
+                    Brush customBrush = new SolidBrush(Color.FromName("White"));
+
+
+                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
+                    shapes.Remove(selectedShape);
+
+                    selectedShape.YLocation -= 10;
+
+
+                    customPen.Color = Color.FromName(selectedShape.Color);
+                    Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
+                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
+                    shapes.Add(selectedShape);
+                }
         }
     }
 }

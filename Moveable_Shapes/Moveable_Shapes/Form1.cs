@@ -310,8 +310,15 @@ namespace Moveable_Shapes
 
          protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
             if (keyData == Keys.Up) {
-                           
-                 using (Graphics g = panel1.CreateGraphics())
+                if(currentShape is currentCircle)
+                    currentCircle.MoveUp();
+                else if(currentShape is currentRectangle)
+                        currentRectangle.MoveUp();
+                else if(currentShape is currentSquare)
+                     currentSquare.MoveUp();
+
+
+              /*   using (Graphics g = panel1.CreateGraphics())
                 {
                     // Draw the circle on top of the panel
                     //for clearing i use background color 
@@ -330,37 +337,46 @@ namespace Moveable_Shapes
                     currentCircle.DrawOrFillShape(customBrush2, customPen, g);
                     shapes.Add(selectedShape);
                 }
+                */
+                return true;
+            }
+            else if (keyData == Keys.Down) {
+                if(currentShape is currentCircle)
+                      currentCircle.MoveDown();
+                else if(currentShape is currentRectangle)
+                        currentRectangle.MoveDown();
+                else if(currentShape is currentSquare)
+                     currentSquare.MoveDown();
 
-             
 
                 return true;
             }
+             else if (keyData == Keys.Right) {
+                if(currentShape is currentCircle)
+                      currentCircle.MoveRight();
+                else if(currentShape is currentRectangle)
+                        currentRectangle.MoveRight();
+                else if(currentShape is currentSquare)
+                     currentSquare.MoveRight();
+
+
+                return true;
+            }
+             else if (keyData == Keys.Left) {
+                if(currentShape is currentCircle)
+                      currentCircle.MoveLeft();
+                else if(currentShape is currentRectangle)
+                        currentRectangle.MoveLeft();
+                else if(currentShape is currentSquare)
+                     currentSquare.MoveLeft();
+
+
+                return true;
+            }
+
+
             return base.ProcessCmdKey(ref msg, keyData);
          }
-        ///////
-      /*  private void Form1_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (exists)
-            {
-                g.FillRectangle(eb, x, y, size, size);
-                switch (e.KeyCode)
-                {
-                    case Keys.Left:
-                        x -= 5;
-                        break;
-                    case Keys.Right:
-                        x += 5; ;
-                        break;
-                    case Keys.Up:
-                        y -= 5; ;
-                        break;
-                    case Keys.Down:
-                        y += 5;
-                        break;
-                }
-                g.FillRectangle(sb, x, y, size, size);
-            }
-        }
-*/
+    
     }
 }
