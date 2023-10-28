@@ -52,7 +52,7 @@ namespace Moveable_Shapes
                 using (Graphics g = panel1.CreateGraphics())
                 {
                     // Draw the circle on top of the panel
-                    currentCircle.DrawOrFillShape(customBrush,customPen , g);
+                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
 
                 }
 
@@ -132,7 +132,7 @@ namespace Moveable_Shapes
 
             Label textLabel = new Label()
             {
-                Text = "You should fill inputs for creating shape! (every field is optional,they have default values)",
+                Text = "You should fill inputs for creating shape! If don't fill not work, Color should be capital letter ! ",/*(every field is optional,they have default values)*/
                 Location = new Point(10, 15),
                 Width = 610
             };
@@ -259,18 +259,18 @@ namespace Moveable_Shapes
             currentCircle = circle;
 
         }
-      ////////
+        ////////
 
         private void panel1_MouseClick(object sender, MouseEventArgs e)
         {
-            int mouseX = e.X; 
-            int mouseY = e.Y;          
+            int mouseX = e.X;
+            int mouseY = e.Y;
 
             foreach (Shape shape in shapes)
             {
-                if (shape is Circle) 
+                if (shape is Circle)
                 {
-                        Circle circle = (Circle)shape;
+                    Circle circle = (Circle)shape;
                     if (mouseX >= circle.XLocation &&
                     mouseX <= circle.XLocation + circle.Radius &&
                     mouseY >= circle.YLocation &&
@@ -290,7 +290,7 @@ namespace Moveable_Shapes
                         selectedShape = rectangle;
                     }
                 }
-               else  if (shape is Square)
+                else if (shape is Square)
                 {
                     Square square = (Square)shape;
                     if (mouseX >= square.XLocation &&
@@ -303,72 +303,42 @@ namespace Moveable_Shapes
                 }
             }
 
-            
+
             Debug.WriteLine(selectedShape);
             label1.Text = "Shape Information: \n" + selectedShape;
         }
 
-         protected override bool ProcessCmdKey(ref Message msg, Keys keyData) {
-            if (keyData == Keys.Up) {
-                if(currentShape is currentCircle)
-                    currentCircle.MoveUp();
-                else if(currentShape is currentRectangle)
-                        currentRectangle.MoveUp();
-                else if(currentShape is currentSquare)
-                     currentSquare.MoveUp();
-
-
-              /*   using (Graphics g = panel1.CreateGraphics())
-                {
-                    // Draw the circle on top of the panel
-                    //for clearing i use background color 
-                    Pen customPen = new Pen(Color.FromName("White"));
-                    Brush customBrush = new SolidBrush(Color.FromName("White"));
-
-
-                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
-                    shapes.Remove(selectedShape);
-
-                    selectedShape.YLocation -= 10;
-
-
-                    customPen.Color = Color.FromName(selectedShape.Color);
-                    Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
-                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
-                    shapes.Add(selectedShape);
-                }
-                */
-                return true;
-            }
-            else if (keyData == Keys.Down) {
-                if(currentShape is currentCircle)
-                      currentCircle.MoveDown();
-                else if(currentShape is currentRectangle)
-                        currentRectangle.MoveDown();
-                else if(currentShape is currentSquare)
-                     currentSquare.MoveDown();
-
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Up)
+            {
+                DeleteShape(panel1, shapes, selectedShape);
+                selectedShape.MoveUp();
+                DrawShape(panel1, shapes, selectedShape);
 
                 return true;
             }
-             else if (keyData == Keys.Right) {
-                if(currentShape is currentCircle)
-                      currentCircle.MoveRight();
-                else if(currentShape is currentRectangle)
-                        currentRectangle.MoveRight();
-                else if(currentShape is currentSquare)
-                     currentSquare.MoveRight();
-
+            else if (keyData == Keys.Down)
+            {
+                DeleteShape(panel1, shapes, selectedShape);
+                selectedShape.MoveDown();
+                DrawShape(panel1, shapes, selectedShape);
 
                 return true;
             }
-             else if (keyData == Keys.Left) {
-                if(currentShape is currentCircle)
-                      currentCircle.MoveLeft();
-                else if(currentShape is currentRectangle)
-                        currentRectangle.MoveLeft();
-                else if(currentShape is currentSquare)
-                     currentSquare.MoveLeft();
+            else if (keyData == Keys.Right)
+            {
+                DeleteShape(panel1, shapes, selectedShape);
+                selectedShape.MoveRight();
+                DrawShape(panel1, shapes, selectedShape);
+
+                return true;
+            }
+            else if (keyData == Keys.Left)
+            {
+                DeleteShape(panel1, shapes, selectedShape);
+                selectedShape.MoveLeft();
+                DrawShape(panel1, shapes, selectedShape);
 
 
                 return true;
@@ -376,7 +346,52 @@ namespace Moveable_Shapes
 
 
             return base.ProcessCmdKey(ref msg, keyData);
-         }
-    
+        }
+        private void moveTimer_Tick(object sender, EventArgs e)
+        {
+            Invalidate();
+        }
+
+        /// Custom functions
+
+        private static void DeleteShape(Panel panel1, List<Shape> shapes, Shape currentShape)
+        {
+            using (Graphics g = panel1.CreateGraphics())
+            {
+                Pen customPen = new Pen(Color.FromName("White"));
+                Brush customBrush = new SolidBrush(Color.FromName("White"));
+                if (currentShape is Circle currentCircle)
+                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
+                else if (currentShape is Rectangle currentRectangle)
+                    currentRectangle.DrawOrFillShape(customBrush, customPen, g);
+                else if (currentShape is Square currentSquare)
+                    currentSquare.DrawOrFillShape(customBrush, customPen, g);
+
+                shapes.Remove(selectedShape);
+            }
+        }
+
+        private static void DrawShape(Panel panel1, List<Shape> shapes, Shape currentShape)
+        {
+            using (Graphics g = panel1.CreateGraphics())
+            {
+                Pen customPen = new Pen(Color.FromName(selectedShape.Color));
+                Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
+                if (currentShape is Circle currentCircle)
+                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
+                else if (currentShape is Rectangle currentRectangle)
+                    currentRectangle.DrawOrFillShape(customBrush2, customPen, g);
+                else if (currentShape is Square currentSquare)
+                    currentSquare.DrawOrFillShape(customBrush2, customPen, g);
+
+                shapes.Add(selectedShape);
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            Invalidate();
+        }
     }
 }
+

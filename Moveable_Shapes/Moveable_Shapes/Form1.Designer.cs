@@ -28,11 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             button1 = new Button();
             button2 = new Button();
             button3 = new Button();
             panel1 = new Panel();
             label1 = new Label();
+            timer1 = new System.Windows.Forms.Timer(components);
             SuspendLayout();
             // 
             // button1
@@ -82,6 +84,12 @@
             label1.Size = new Size(0, 20);
             label1.TabIndex = 4;
             // 
+            // timer1
+            // 
+            timer1.Enabled = true;
+            timer1.Interval = 1;
+            timer1.Tick += timer1_Tick;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -106,5 +114,6 @@
         private Button button3;
         private Panel panel1;
         private Label label1;
+        private System.Windows.Forms.Timer timer1;
     }
 }

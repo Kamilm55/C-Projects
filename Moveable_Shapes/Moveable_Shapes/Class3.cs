@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moveable_Shapes
 {
-    internal class Rectangle : Shape,IMoveable
+    internal class Rectangle : Shape/*,IMoveable*/
     {
         private double width = 1.0;
         private double length = 1.0;

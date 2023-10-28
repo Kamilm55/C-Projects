@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moveable_Shapes
 {
-    internal class Circle:Shape,IMoveable
+    internal class Circle : Shape/*,IMoveable*/
     {
         private double radius = 1.0;
 
@@ -15,13 +15,13 @@ namespace Moveable_Shapes
         {
             this.radius = radius;
         }
-        public Circle(double radius,string color,bool filled)
+        public Circle(double radius, string color, bool filled)
         {
             this.Radius = radius;
             this.Color = color;
             this.IsFilled = filled;
         }
-        public double Radius {  get { return this.radius; } set {  this.radius = value; } }
+        public double Radius { get { return this.radius; } set { this.radius = value; } }
 
         public override string ToString()
         {
@@ -35,11 +35,11 @@ namespace Moveable_Shapes
         // Methods : area and perimeter
         public double getArea()
         {
-          return  3.14 * radius * radius;
+            return 3.14 * radius * radius;
         }
         public double getPerimeter()
         {
-            return 3.14  * 2 * radius;
+            return 3.14 * 2 * radius;
         }
 
         // Draw
@@ -61,86 +61,5 @@ namespace Moveable_Shapes
             }
         }
 
-        // Move
-        public override void MoveUp(Circle currentCircle,Shape selectedShape)
-        {
-                using (Graphics g = panel1.CreateGraphics())
-                {
-                    Pen customPen = new Pen(Color.FromName("White"));
-                    Brush customBrush = new SolidBrush(Color.FromName("White"));
-
-
-                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
-                    shapes.Remove(selectedShape);
-
-                    selectedShape.YLocation -= 10;
-
-
-                    customPen.Color = Color.FromName(selectedShape.Color);
-                    Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
-                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
-                    shapes.Add(selectedShape);
-                }
-        }
-        public override void MoveDown()
-        {
-                using (Graphics g = panel1.CreateGraphics())
-                {
-                    Pen customPen = new Pen(Color.FromName("White"));
-                    Brush customBrush = new SolidBrush(Color.FromName("White"));
-
-
-                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
-                    shapes.Remove(selectedShape);
-
-                    selectedShape.YLocation += 10;
-
-
-                    customPen.Color = Color.FromName(selectedShape.Color);
-                    Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
-                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
-                    shapes.Add(selectedShape);
-                }
-        }
-        public override void MoveRight()
-        {
-                using (Graphics g = panel1.CreateGraphics())
-                {
-                    Pen customPen = new Pen(Color.FromName("White"));
-                    Brush customBrush = new SolidBrush(Color.FromName("White"));
-
-
-                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
-                    shapes.Remove(selectedShape);
-
-                    selectedShape.YLocation += 10;
-
-
-                    customPen.Color = Color.FromName(selectedShape.Color);
-                    Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
-                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
-                    shapes.Add(selectedShape);
-                }
-        }
-        public override void MoveLeft()
-        {
-                using (Graphics g = panel1.CreateGraphics())
-                {
-                    Pen customPen = new Pen(Color.FromName("White"));
-                    Brush customBrush = new SolidBrush(Color.FromName("White"));
-
-
-                    currentCircle.DrawOrFillShape(customBrush, customPen, g);
-                    shapes.Remove(selectedShape);
-
-                    selectedShape.YLocation -= 10;
-
-
-                    customPen.Color = Color.FromName(selectedShape.Color);
-                    Brush customBrush2 = new SolidBrush(Color.FromName(selectedShape.Color));
-                    currentCircle.DrawOrFillShape(customBrush2, customPen, g);
-                    shapes.Add(selectedShape);
-                }
-        }
     }
 }

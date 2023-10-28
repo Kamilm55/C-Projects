@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moveable_Shapes
 {
-    internal abstract class Shape
+    internal abstract class Shape :IMoveable
     {
         private int xLocation = 0;
         private int yLocation = 0;
@@ -49,5 +49,36 @@ namespace Moveable_Shapes
             area.DrawEllipse(p, -1,-1,0,0);
         }
 
+        public void MoveUp()
+        {
+            RestrictInsidePanel(this);
+            this.YLocation -= 10;
+        }
+
+        public void MoveDown()
+        {
+            RestrictInsidePanel(this);
+            this.YLocation += 10;
+        }
+
+        public void MoveRight()
+        {
+            RestrictInsidePanel(this);
+            this.XLocation += 10;
+        }
+
+        public void MoveLeft()
+        {
+            RestrictInsidePanel(this);
+            this.XLocation -= 10;
+        }
+
+        public static void RestrictInsidePanel(Shape selectedShape)
+        {
+            if(selectedShape.XLocation <= 0)
+                selectedShape.XLocation = 0;
+            if (selectedShape.YLocation <= 0)
+                selectedShape.YLocation = 0;
+        }
     }
 }
